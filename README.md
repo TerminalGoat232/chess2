@@ -1,4 +1,4 @@
-# chess2 [WIP]
+# chess 2 [WIP]
 a modified chess game from a youtuber called Oats Jenkins
 
 the video can be viewed here
