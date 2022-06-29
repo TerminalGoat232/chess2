@@ -55,17 +55,12 @@ class UIBoard:
 		for x in range(1,9):
 			for y in range(1,len(self.board[1])+1):
 				if self.r % 2  == 0:
-					pg.draw.rect(screen,(116,139,189),[self.tilesize*y,self.tilesize*x,
-													self.tilesize,self.tilesize])
+					pg.draw.rect(screen,(116,139,189),[self.tilesize*y,self.tilesize*x,self.tilesize,self.tilesize])
 					for cc in range(1,8):
 						if cc==1 or cc==6:
-							pg.draw.rect(screen,(24,24,25),[self.tilesize,self.tilesize*cc,
-																self.tilesize,self.tilesize*3])
-							pg.draw.rect(screen,(24,24,25),[self.tilesize*10,self.tilesize*cc,
-																self.tilesize,self.tilesize*3])
-						
-				else: pg.draw.rect(screen,(255,255,255),[self.tilesize*y,self.tilesize*x,
-													self.tilesize,self.tilesize])
+							pg.draw.rect(screen,(24,24,25),[self.tilesize,self.tilesize*cc,self.tilesize,self.tilesize*3])
+							pg.draw.rect(screen,(24,24,25),[self.tilesize*10,self.tilesize*cc,self.tilesize,self.tilesize*3])		
+				else: pg.draw.rect(screen,(255,255,255),[self.tilesize*y,self.tilesize*x,self.tilesize,self.tilesize])
 				self.r+=1
 			self.r-=1
 	def draw_pieces(self):
