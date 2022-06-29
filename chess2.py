@@ -44,7 +44,6 @@ class UIBoard:
 		self.constboard = b.constboard()
 		self.board = b.setup('xRMFQKFMRx','xRMFQKFMRx'.lower(),'xFFEFFEFFx','xFFEFFEFFx'.lower())
 		self.ltts1 = ['','','A','B','C','D','E','F','G','H']
-		#self.materials = ["R","M","F","Q"]
 		self.etcandhornyjails = ["Jb1","Jb2","Jw1","Jw2"]
 		self.materials = ['b',"Jb1","Jb2","Jw1","Jw2",'0','x',"E","R","M","F","Q","K","r","m","f","q","k","e"]
 		self.images={}
