@@ -69,7 +69,7 @@ class UIBoard:
 				self.pces = self.mainboard[f'{xx}'][yy]
 				if self.pces != '-':
 					screen.blit(self.images[self.pces],pg.Rect(self.pcsz*yy+90,xx*self.pcsz+20,self.pcsz,self.pcsz))
-	def draw_letters_and_num(self):
+	def draw_letters_and_nums(self):
 		for cnt in range(0,len(self.ltts1)):
 			Label(screen,self.ltts1[cnt],1.06*self.tilesize*cnt,40,40)
 		for cnt2 in range(1,9):
@@ -81,7 +81,7 @@ if __name__ == "__main__":
 	
 	screen.fill("#181819")
 	uib = UIBoard()
-	uib.draw_letters_and_num()
+	uib.draw_letters_and_nums()
 	uib.load_pieces()
 	while running:
 		events = pg.event.get()
