@@ -45,6 +45,7 @@ class Board:
 			print(self.tiles[f'{x}'])
 	def mainboard(self):return self.tiles
 	def constboard(self):return self.consttiles
+	#trash {
 	def move(self,posx:str,posy:str):
 		self.c1 = posx[0];self.r1=posx[1]
 		self.c2 = posy[0];self.r2=posy[1]
@@ -53,19 +54,12 @@ class Board:
 		#self.tiles[posx][posy] = self.consttiles[posx][posy]
 		#self.rook = self.tiles[posx][posy]
 		#if posy == 1 and posx == '1':self.tiles['1'][1]=self.rook
+	#}
 class LegalMoves(Board):
 	def __init__(self):
 		pass
 cc = Board()
 cc.setup('xRMFQKFMRx','xRMFQKFMRx'.lower(),'xFFEFFEFFx','xFFEFFEFFx'.lower())
-# while 1:
-# 	cc2 = input('>>>')
-# 	cc1 = input('>>>')
-	# cc.move(cc2,cc1)
-# cc.move('11','43')
-# cc.move('23','45')
-# cc.move('88','33')
 cc.printboard()
 a = cc.mainboard()
-print(a['1'][1])
 
