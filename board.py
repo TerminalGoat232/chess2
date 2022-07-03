@@ -1,4 +1,5 @@
 #! /usr/bin/env python
+from cmath import exp
 import random
 class Board:
 	def __init__(self,tp=0):
@@ -68,16 +69,20 @@ class Board:
 		return self.res 
 	def hNv(self,r:str,c):
 		res = []
-		for u in range(1,9): res.append(str(u)+str(c));res.append(str(r)+str(u))
+		for u in range(1,9):
+			res.append(str(u)+str(c));res.append(str(r)+str(u))
 		return res
 	def diagonal(self,r:str,c):
 		res =[]
+		self.trdiag,self.tldiag,self.brdiag,self.bldiag=[],[],[],[]
 		for f1 in range(1,9):
 			for f2 in range(1,9):
-				if int(r)-f1>0 and c+f2<9:res.append(str(int(r)-f1)+str(c+f2)) #  top right  diagonal
-				if int(r)-f1>0 and c-f2>0:res.append(str(int(r)-f1)+str(c-f2)) #  top left diagonal
-				if int(r)+f1<9 and c+f2<9:res.append(str(int(r)+f1)+str(c+f2)) #  bottom right diagonal
-				if int(r)+f1<9 and c-f2>0:res.append(str(int(r)+f1)+str(c-f2)) #  bottom left diagonal
+				if int(r)-f1>0 and c+f2<9 and self.tiles[str(int(r)-f1)][c+f2]!='0':self.trdiag.append(str(int(r)-f1)+str(c+f2))#  top right diagonal
+				if int(r)-f1>0 and c-f2>0 and self.tiles[str(int(r)-f1)][c-f2]!='0':self.tldiag.append(str(int(r)-f1)+str(c-f2)) #  top left diagonal
+				if int(r)+f1<9 and c+f2<9 and self.tiles[str(int(r)+f1)][c+f2]!='0':self.brdiag.append(str(int(r)+f1)+str(c+f2))#  bottom right diagonal
+				if int(r)+f1<9 and c-f2>0 and self.tiles[str(int(r)+f1)][c-f2]!='0':self.bldiag.append(str(int(r)+f1)+str(c-f2))#  bottom left diagonal
+		res = self.trdiag+self.tldiag+self.brdiag+self.bldiag
+		print(res)
 		return res	
 class LegalMoves(Board):
 	def __init__(self,board):
@@ -89,7 +94,7 @@ class LegalMoves(Board):
 			res1 = []
 			self.forward = str(int(r)-1)+str(c)
 			self.left1=r+str(c-1);self.right1=r+str(c+1)
-			self.tleft1=str(int(r)-1)+str(c+1);self.tright1 =str(int(r)-1)+str(c-1)
+			self.tleft1 = str(int(r)-1)+str(c+1);self.tright1 =str(int(r)-1)+str(c-1)
 			res1 = [self.forward,self.left1,self.right1,self.tleft1,self.tright1]
 			if self.board[self.forward[0]][int(self.forward[1])] != '0' : res1.remove(self.forward) 
 			if self.board[self.left1[0]][int(self.left1[1])] !='0' and self.board[self.forward[0]]!="1":res1.remove(self.left1)
@@ -97,9 +102,10 @@ class LegalMoves(Board):
 			print(self.forward[0])
 			if self.forward[0] == "1":print('cuwts')
 			return res1
+			
 		if h == "F":
 			res2 = []
-			self.forward1=str(int(r)+1)+str(c)
+			self.forward1 = str(int(r)+1)+str(c)
 			self.left2=r+str(c-1);self.right2=r+str(c+1)
 			self.tleft2 = str(int(r)+1)+str(c-1);self.tright2 =str(int(r)+1)+str(c+1)
 			res2 = [self.forward1,self.left2,self.right2,self.tleft2,self.tright2]
@@ -108,11 +114,4 @@ class LegalMoves(Board):
 			if self.board[self.right2[0]][int(self.right2[1])] != '0' and self.board[self.forward1[0]]!="8":res2.remove(self.right2)
 			if self.board[self.forward1[0]] == "8": res2.remove(self.forward1);res2.remove(self.tleft2);res2.remove(self.tright2)
 			return res2
-	def Queen(self,r:str,c): return self.hNv(r,c)+self.diagonal(r,c)
-#test
-cc = Board()
-cc.setup('xRMFQKFMRx','xRMFQKFMRx'.lower(),'xFFEFFEFFx','xFFEFFEFFx'.lower())
-cc.printboard()
-a = cc.mainboard()
-print(a['1'][1])
-
+	def Queen(self,r:str,c): return self.hNv(r,c) +self.diagonal(r,c)
