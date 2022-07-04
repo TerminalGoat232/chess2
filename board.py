@@ -58,15 +58,19 @@ class Board:
 		if self.tiles[r][c]=='8':self.res.remove(self.right)
 		if self.tiles[r][c]=='1':self.res.remove(self.left)
 		return self.res
-	def corners_near(self,r:str,c,bw=False):
-		self.tleft = str(int(r)+1)+str(c-1)
-		self.tright =str(int(r)+1)+str(c+1)
-		self.bleft = str(int(r)-1)+str(c-1)
-		self.bright = str(int(r)-1)+str(c+1)
+	def corners_near(self,r:str,c,optional):
+		self.bleft = str(int(r)+1+optional)+str(abs(c-1-optional))
+		self.bright =str(int(r)+1+optional)+str(c+1+optional)
+		self.tleft = str(int(r)-1-optional)+str(abs(c-1-optional))
+		self.tright = str(int(r)-1-optional)+str(c+1+optional)
 		self.res = [self.tleft,self.tright,self.bleft,self.bright]
-		if c == 1:self.res.remove(self.tleft);self.res.remove(self.bleft)
-		if c == 8:self.res.remove(self.tright);self.res.remove(self.bright)
+		# if self.tiles[str(int(r)+1)][c-1]!=0:self.res.remove(self.bleft)
+		# if self.tiles[str(int(r)-1)][c-1]!=0:self.res.remove(self.tleft)
+		# if self.tiles[str(int(r)-1)][c+1]!=0:self.res.remove(self.tright)
+		# if c == 1:self.res.remove(self.tleft);self.res.remove(self.bleft)
+		# if c == 8:self.res.remove(self.tright);self.res.remove(self.bright)
 		return self.res 
+	
 	def hNv(self,r:str,c):
 		res = []
 		for u in range(1,9):
@@ -76,11 +80,10 @@ class Board:
 		res =[]
 		self.trdiag,self.tldiag,self.brdiag,self.bldiag=[],[],[],[]
 		for f1 in range(1,9):
-			for f2 in range(1,9):
-				if int(r)-f1>0 and c+f2<9 and self.tiles[str(int(r)-f1)][c+f2]!='0':self.trdiag.append(str(int(r)-f1)+str(c+f2))#  top right diagonal
-				if int(r)-f1>0 and c-f2>0 and self.tiles[str(int(r)-f1)][c-f2]!='0':self.tldiag.append(str(int(r)-f1)+str(c-f2)) #  top left diagonal
-				if int(r)+f1<9 and c+f2<9 and self.tiles[str(int(r)+f1)][c+f2]!='0':self.brdiag.append(str(int(r)+f1)+str(c+f2))#  bottom right diagonal
-				if int(r)+f1<9 and c-f2>0 and self.tiles[str(int(r)+f1)][c-f2]!='0':self.bldiag.append(str(int(r)+f1)+str(c-f2))#  bottom left diagonal
+			if int(r)-f1>0 and c+f1<9 and self.tiles[str(int(r)-f1)][c+f1]=='0':self.trdiag.append(str(int(r)-f1)+str(c+f1))#  top right diagonal
+			if int(r)-f1>0 and c-f1>0 and self.tiles[str(int(r)-f1)][c-f1]=='0':self.tldiag.append(str(int(r)-f1)+str(c-f1)) #  top left diagonal
+			if int(r)+f1<9 and c+f1<9 and self.tiles[str(int(r)+f1)][c+f1]=='0':self.brdiag.append(str(int(r)+f1)+str(c+f1))#  bottom right diagonal
+			if int(r)+f1<9 and c-f1>0 and self.tiles[str(int(r)+f1)][c-f1]=='0':self.bldiag.append(str(int(r)+f1)+str(c-f1))#  bottom left diagonal
 		res = self.trdiag+self.tldiag+self.brdiag+self.bldiag
 		print(res)
 		return res	
@@ -88,7 +91,15 @@ class LegalMoves(Board):
 	def __init__(self,board):
 		super().__init__()
 		self.board = board
-	def King(self,r:str,c): return self.hNv_near(r,c)+self.corners_near(r,c)
+	def King(self,r:str,c): return self.hNv_near(r,c)+self.corners_near(r,c,0)
+	def Elephant(self,r:str,c):
+		return self.corners_near(r,c,1)
+	def Bear(self,r:str,c):
+		self.moves = ["44",'45','54','55']
+		for i in self.moves: 
+			if self.board[i[0]][int(i[1])] != "0":self.moves.remove(i)
+		return self.moves
+	def Monke(self,r:str,c):pass
 	def Feesh(self,r:str,c,h):
 		if h == "f":
 			res1 = []
@@ -105,9 +116,9 @@ class LegalMoves(Board):
 			
 		if h == "F":
 			res2 = []
-			self.forward1 = str(int(r)+1)+str(c)
+			self.forward1=str(int(r)+1)+str(c)
 			self.left2=r+str(c-1);self.right2=r+str(c+1)
-			self.tleft2 = str(int(r)+1)+str(c-1);self.tright2 =str(int(r)+1)+str(c+1)
+			self.tleft2=str(int(r)+1)+str(c-1);self.tright2 =str(int(r)+1)+str(c+1)
 			res2 = [self.forward1,self.left2,self.right2,self.tleft2,self.tright2]
 			if self.board[self.forward1[0]][int(self.forward1[1])]!= '0' or self.board[self.forward1[0]] == "8" : res2.remove(self.forward1)
 			if self.board[self.left2[0]][int(self.left2[1])] !='0' and self.board[self.forward1[0]]!="8":res2.remove(self.left2)
