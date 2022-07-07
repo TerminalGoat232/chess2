@@ -10,8 +10,8 @@ class Board:
       				'1':['x','0','0','0','0','0','0','0','0','x'],\
 					'2':['x','0','0','0','0','0','0','0','0','x'],\
 					'3':['x','0','0','0','0','0','0','0','0','x'],\
-				'4':['Jb1','0','0','0','0','0','0','0','0','Jw1'],\
-				'5':['Jb2','0','0','0','0','0','0','0','0','Jw2'],\
+					'4':['J','0','0','0','0','0','0','0','0','S'],\
+					'5':['j','0','0','0','0','0','0','0','0','s'],\
 					'6':['x','0','0','0','0','0','0','0','0','x'],\
 					'7':['x','0','0','0','0','0','0','0','0','x'],\
 					'8':['x','0','0','0','0','0','0','0','0','x']}
@@ -20,8 +20,8 @@ class Board:
       				'1':['x','0','0','0','0','0','0','0','0','x'],\
 					'2':['x','0','0','0','0','0','0','0','0','x'],\
 					'3':['x','0','0','0','0','0','0','0','0','x'],\
-				'4':['Jb1','0','0','0','0','0','0','0','0','Jw1'],\
-				'5':['Jb2','0','0','0','0','0','0','0','0','Jw2'],\
+					'4':['J','0','0','0','0','0','0','0','0','S'],\
+					'5':['j','0','0','0','0','0','0','0','0','s'],\
 					'6':['x','0','0','0','0','0','0','0','0','x'],\
 					'7':['x','0','0','0','0','0','0','0','0','x'],\
 					'8':['x','0','0','0','0','0','0','0','0','x']}
@@ -94,7 +94,7 @@ class Board:
 				self.obstaclesholder.append(str(int(r)-f1)+str(c+f1))
 				# if self.board[str(int(r)-f1)][c+f1] !="0":
 				# for chim in self.obstaclesholder[1:len(self.obstaclesholder)]:
-				# 	self.trdiag.remove(chim) # HARRDDDsadiurfrhdsgiuonhoiftj
+				# 	self.trdiag.remove(chim)
 				# 	print(self.trdiag)			
 				print(">_",self.board[str(int(r)-f1)][c+f1])
 			if int(r)-f1>0 and c-f1>0 :self.tldiag.append(str(int(r)-f1)+str(c-f1)) #  top left diagonal
@@ -136,7 +136,7 @@ class LegalMoves(Board):
 			if self.board[str(int(r)-1)][c-1]!="0":res.append(str(int(r)-2)+str(abs(c-2)))
 			if self.board[str(int(r)-1)][c+1]!="0":res.append(str(int(r)-2)+str(abs(c+2)))
 		except: pass
-		if placed[1]=="8" or placed[1]=="1":
+		if placed[1]=="8"or placed[1]=="1" and (self.board[r][c+1]!="0" and self.board[r][c+1]!="0" ):
 			res.append(str(int(r)+2)+str(c));res.append(str(int(r)-2)+str(c))
 			res.append(r+str(c-2));res.append(r+str(c+2))
 			res.append(str(int(r)-2)+str(abs(c-2)));res.append(str(int(r)+2)+str(abs(c+2)))
@@ -169,4 +169,5 @@ class LegalMoves(Board):
 		res = self.hNv(r,c)+self.diagonal(r,c)
 		print(self.obstaclesholder[1:len(self.obstaclesholder)])
 		return res
+
 
